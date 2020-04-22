@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {Link,withRouter} from 'react-router-dom';
 
 
@@ -22,29 +22,53 @@ return "nav-link"
          .catch(err=>console.log(err))
    }
 
+   const isAuthenticate=()=>{
+     if(typeof window === undefined){
+       return false
+     }
+
+    if(localStorage.getItem("jwt"))
+    return  JSON.parse(localStorage.getItem("user"))
+    else 
+    return false
+
+   }
 const Navbar = ({history}) => {
   return (
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <Link class={isActive(history,"/")} to="/">
+      <ul className="nav nav-tabs" style={{}}>
+        <li className="nav-item">
+          <Link className={isActive(history,"/")} to="/">
             Home Page
           </Link>
         </li>
-        <li class="nav-item">
-        <Link class={isActive(history,"/signup")} to="/signup">
-            Sign Up
-          </Link>
-        </li>
-        <li class="nav-item">
-        <Link class={isActive(history,"/signin")} to="/signin">
-            Sign In
-          </Link>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link" style={{cursor:"pointer"}} onClick={()=>signout(()=>history.push('/'))}>
+        {isAuthenticate()?(
+          <>
+          <li className="nav-item">
+        <a className="nav-link" style={{cursor:"pointer"}} onClick={()=>signout(()=>history.push('/'))}>
             Sign Out
           </a>
         </li>
+        <li className="nav-item">
+        <Link className="nav-link" style={{cursor:"pointer"}} to={`/user/${isAuthenticate()._id}`}>
+            {`${isAuthenticate().Username}'s Profile`}
+          </Link>
+        </li>
+        </>
+        ):
+      (<>
+        <li className="nav-item">
+      <Link className={isActive(history,"/signup")} to="/signup">
+          Sign Up
+        </Link>
+      </li>
+      <li className="nav-item">
+      <Link className={isActive(history,"/signin")} to="/signin">
+          Sign In
+        </Link>
+        </li>
+        </>
+      )
+    }
         </ul>
   );
 };

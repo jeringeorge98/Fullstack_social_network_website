@@ -58,16 +58,16 @@ export default class Signup extends Component {
     return (
       <div className="container-fluid">
         <h2 className="mt-5 mb-5"> SignUp</h2>
-        <div class="alert alert-success" role="alert" style={{display:open? "":"none"}}>
+        <div className="alert alert-success" role="alert" style={{display:open? "":"none"}}>
                   Succesfully signed up!! Please<Link to="/signin">Sign in</Link>
              </div>
-           <div class="alert alert-warning" role="alert" style={{display:error? "":"none"}}>
+           <div className="alert alert-warning" role="alert" style={{display:error? "":"none"}}>
                   {error}
              </div>
         <form>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">
+              <span className="input-group-text" id="basic-addon1">
                 Email
               </span>
             </div>
