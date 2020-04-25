@@ -5,6 +5,7 @@ import Signup from "./user/signup"
 import Signin from "./user/Signin";
 import Navbar from "./components/navbar";
 import Profile from "./user/User";
+import EditProfile from "./user/EditProfile"
 const Mainnavigator = () => (
   <>
      <Navbar/> 
@@ -12,7 +13,8 @@ const Mainnavigator = () => (
       <Route exact path="/" component={Home} />
       <Route path ="/signin" component={Signin}/>
       <Route path ="/signup" component ={Signup}/>   
-      <Route path ="/user/:userId" component={Profile}/> 
+      <Route exact path ="/user/:userId" component={Profile}/>
+      <Route exact path ="/user/update/:userId" component={EditProfile} /> 
       </Switch>
     </>
 );
