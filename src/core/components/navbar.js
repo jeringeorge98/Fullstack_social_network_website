@@ -41,17 +41,22 @@ const Navbar = ({history}) => {
             Home Page
           </Link>
         </li>
+        <li className="nav-item">
+          <Link className={isActive(history,"/users")} to="/users">
+            Users
+          </Link>
+        </li>
         {isAuthenticate()?(
           <>
-          <li className="nav-item">
-        <a className="nav-link" style={{cursor:"pointer"}} onClick={()=>signout(()=>history.push('/'))}>
-            Sign Out
-          </a>
-        </li>
         <li className="nav-item">
         <Link className="nav-link" style={{cursor:"pointer"}} to={`/user/${isAuthenticate()._id}`}>
             {`${isAuthenticate().Username}'s Profile`}
           </Link>
+        </li>
+        <li className="nav-item">
+        <a className="nav-link" style={{cursor:"pointer"}} onClick={()=>signout(()=>history.push('/'))}>
+            Sign Out
+          </a>
         </li>
         </>
         ):
