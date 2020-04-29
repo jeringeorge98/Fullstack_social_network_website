@@ -18,3 +18,34 @@ export const list=()=>{
        .catch((err) => console.log(err));
  
    }
+   // delete user api
+   export const deleteUser=(id,token)=>{
+      return fetch(`http://localhost:5000/user/delete/${id}`,{
+        method:'DELETE',
+        headers: {
+          Accept: "application/json",
+          "Content-Type":"application/json",
+          Authorization:`Bearer ${token}`
+        },    
+      }).then(resp=>resp.json())
+      .catch(err=>console.log(err))
+   }
+   // Signout User
+   export const signOut=()=>{
+    
+    
+    if(typeof window!== undefined)
+     {
+         localStorage.removeItem("jwt");
+         localStorage.removeItem("user");
+     }
+   
+   
+    return fetch("http://localhost:5000/signOut",{
+      method:'GET',
+  }).then(resp=>{
+      console.log(resp.json)
+  })
+  .catch(err=>console.log(err))
+}
+   

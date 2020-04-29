@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { list } from "./Userapi";
+import {Link} from 'react-router-dom';
+import Batman from "../../assets/batman.png"
 export default class UserList extends Component {
   constructor(props) {
     super(props);
@@ -22,15 +24,15 @@ export default class UserList extends Component {
           <div className="row">
             {users.map((user, index) => (
               <div className="card col-6" style={{width: "18rem"}} key={index}>
-                {/*<img className="card-img-top" src="" alt="Card image cap" />*/}
+                <img className="card-img-top" src={Batman} alt="Card image cap" style={{width:'100%',height:'15vw',objectFit:'cover',}}/>
                 <div className="card-body">
                   <h5 className="card-title">{user.Username}</h5>
                   <p className="card-text">
                    {user.email}
                   </p>
-                  <a href="#" className="btn btn-raised btn-primary">
+                  <Link to={`/user/${user._id}`} className="btn btn-raised btn-primary">
                     View Profile
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
