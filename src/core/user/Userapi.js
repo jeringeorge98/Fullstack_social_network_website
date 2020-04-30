@@ -49,3 +49,17 @@ export const list=()=>{
   .catch(err=>console.log(err))
 }
    
+//Update user
+
+export const updateUser=(id,token,user)=>{
+  return fetch(`http://localhost:5000/user/update/${id}`,{
+    method:'PUT',
+    headers: {
+      Accept: "application/json",
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify(user)    
+  }).then(resp=>resp.json())
+  .catch(err=>console.log(err))
+}

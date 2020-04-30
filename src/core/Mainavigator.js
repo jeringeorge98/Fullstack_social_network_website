@@ -7,6 +7,7 @@ import Navbar from "./components/navbar";
 import Profile from "./user/User";
 import UserList from "./user/UserList"
 import EditProfile from "./user/EditProfile"
+import PrivateRoute from "../auth/PrivateRoute"
 const Mainnavigator = () => (
   <>
      <Navbar/> 
@@ -15,8 +16,8 @@ const Mainnavigator = () => (
       <Route path ="/signin" component={Signin}/>
       <Route path ="/signup" component ={Signup}/>
       <Route path ="/users" exact component={UserList}/>   
-      <Route exact path ="/user/:userId" component={Profile}/>
-      <Route exact path ="/user/update/:userId" component={EditProfile} /> 
+      <PrivateRoute exact path ="/user/:userId" component={Profile}/>
+      <PrivateRoute exact path ="/user/update/:userId" component={EditProfile} /> 
       </Switch>
     </>
 );
