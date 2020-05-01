@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { isAuthenticateUser,isAuthenticate, } from "../../auth";
 import {updateUser} from './Userapi'
+import { Redirect } from 'react-router-dom';
 export default class EditProfile extends Component {
 constructor(props) {
     super(props)
@@ -9,13 +10,17 @@ constructor(props) {
          userid:this.props.match.params.userId,
          email:'',
          name:'',
-         password:''
+         password:'',
+         photo:'',
+         redirectto:false,
+         loading:false
     }
 }
 
 
     async componentDidMount() {
         // get token
+        this.userData=new FormData();
         let token = isAuthenticate();
         // token=JSON.stringify(token)
         console.log(this.state.userid);
@@ -44,24 +49,50 @@ constructor(props) {
 
       handleUpdate=(e)=>{
          e.preventDefault();
-         const {email,name,password,userid}=this.state;
+         this.setState({loading:true})
+         
+         const {email,name,password,userid,photo}=this.state;
          let token =isAuthenticate()
-         const user={
-           email,
-           Username:this.state.name,
-           password:password || undefined
-         }
-         updateUser(userid,token,user).then(data=>{
-             console.log(data,"updated")
+        // let user={
+        //    email,
+        //    Username:this.state.name,
+        //    password:password || undefined,
+        //    photo
+        //  }
+         updateUser(userid,token,this.userData).then(data=>{
+          if(data.error){
+            console.log(data.error)
+          }   
+          
+          this.setState({
+           redirectto:true,
+           loading:false
+          })
+
          })
          .catch(err=>{console.log(err)})
+  
       }
 
+      handleChange =name=>event=>{
+        const value =name==='photo'? event.target.files[0]:event.target.value
+        this.userData.set(name,value)
+        this.setState({[name]:value})
+            }
+
     render() {
-        const{email,name}=this.state;
+        const{email,name,redirectto,userid,loading}=this.state;
+        if(redirectto){
+          return(
+          <Redirect to={`/user/${userid}`}/>
+          )
+        }
         return (
             <div className="container">
             <h2 className="mt-5 mb-5">Edit Profile</h2>
+            <div className="jumbotron" style={{display:loading? '':'none'}}>
+             Loading......
+             </div>
             <form>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
@@ -76,12 +107,22 @@ constructor(props) {
               placeholder="Your Email"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              onChange={(text) => {
-                this.setState({ email: text.target.value });
-              }}
+              onChange={this.handleChange("email")}
             ></input>
           </div>
-
+          <div className="input-group mb-3">
+          <div className="input-group-prepend">
+            <span className="input-group-text" id="basic-addon1">
+              Profile Photo
+            </span>
+          </div>
+          <input
+            type="file"
+            accept="image/*"
+            className="form-control"
+            onChange={this.handleChange("photo")}
+          ></input>
+        </div>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">
@@ -95,9 +136,7 @@ constructor(props) {
               placeholder="Username"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              onChange={(name) => {
-                this.setState({ name: name.target.value });
-              }}
+              onChange={this.handleChange("name")}
             ></input>
           </div>
           <div className="input-group mb-3">
@@ -113,9 +152,7 @@ constructor(props) {
               placeholder="Password"
               aria-label="Username"
               aria-describedby="basic-addon1"
-              onChange={(password) => {
-                this.setState({ password: password.target.value });
-              }}
+              onChange={this.handleChange("password")}
             ></input>
           </div>
           <button
