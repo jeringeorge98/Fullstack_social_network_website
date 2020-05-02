@@ -93,6 +93,8 @@ console.log(flag)
        if(flag){
          return <Redirect to="/"/>
        }      
+       const photoUrl=userid?`http://localhost:5000/user/photo/${userid}`: <Batman/>
+       console.log(photoUrl)
       return (
         <>
        {loading?(<div className="jumbotron">
@@ -104,8 +106,11 @@ console.log(flag)
       <div className="row">
       <div className="col-6">
         <h2 className="mt-5 mb-5">Profile section</h2>
-        <img className="card-img-top" src={Batman} alt="Card image cap" style={{width:'100%',height:'25vw',objectFit:'cover',}}/>
-        
+        <img className="card-img-top" src={photoUrl} onError={i=>i.target.src=`${Batman}`} alt="Card image cap" style={{width:'100%',height:'200px',objectFit:'cover',}} />
+        <div className="col md-12 mt-5 mb-5" >
+        <h5 className="mt-5 mb-5">About Me:</h5>
+        <p className="lead">{user.about|| "Write something about yourself"}</p>
+        </div >
         </div>
         <div className="col-6" style={{marginTop:"5%",}}>
         <div>
@@ -113,6 +118,7 @@ console.log(flag)
         <h4 className="mt-5 mb-5">Email: {user.email}</h4>
         <p className="mt-5 mb-5"> {`Joined on ${new Date(user.created).toDateString()}`}</p>        
         </div>
+        
         <div style={{margin:'2%'}}>
         {isAuthenticateUser() && isAuthenticateUser()._id == this.state.userid && (
           <>

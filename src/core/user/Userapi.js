@@ -63,3 +63,16 @@ export const updateUser=(id,token,user)=>{
   }).then(resp=>resp.json())
   .catch(err=>console.log(err))
 }
+
+export const updateLocalinfo=({Username,email,_id},next)=>{
+
+  if(typeof window !="undefined"){
+    let auth =JSON.parse(localStorage.getItem("user"))
+    console.log(auth,"1")
+
+       auth={Username,email,_id}
+       console.log(auth,"2")
+        localStorage.setItem("user",JSON.stringify(auth))
+        next();
+  }
+}
