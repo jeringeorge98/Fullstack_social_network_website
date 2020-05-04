@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Link, Redirect} from 'react-router-dom';
 import { isAuthenticateUser,isAuthenticate, } from "../../auth";
 import {deleteUser,signOut} from './Userapi'
+import FollowButton from '../components/followButton'
 import Batman from "../../assets/batman.png"
 export default class User extends Component {
   constructor(props) {
@@ -9,10 +10,20 @@ export default class User extends Component {
 
     this.state = {
       userid: this.props.match.params.userId,
-      user: {},
+      user: {follower:[],following:[]},
       loading:false,
-      flag:false
+      flag:false,
+      following:false
     };
+  }
+
+  checkFollowing=(user)=>{
+    const jwt=isAuthenticateUser();
+    const match  =user.following.find(follower=>{
+      return follower._id===jwt._id
+    }
+      )
+      return match;
   }
   async componentDidMount() {
     // get token
@@ -32,9 +43,11 @@ export default class User extends Component {
       .then((resp) => resp.json())
       .then((data) => {
         console.log(data);
+        const following=this.checkFollowing(data.user)
         this.setState({
          loading:false,
           user: data.user,
+          following
         });
       })
       .catch((err) => console.log(err));
@@ -87,6 +100,30 @@ export default class User extends Component {
       }
 
   }
+
+
+  OnclickFollow=(apicall)=>{
+   let userid=isAuthenticateUser();
+   let token =isAuthenticate();
+    let followid=this.state.user._id   
+    apicall(token,userid,followid).then(data=>{
+    if(data.error){
+      this.setState({
+        error:data.error
+      })
+    }
+    else{
+      console.log(data.user)
+    this.setState({
+      following:!this.state.following
+
+    })
+  }
+
+    }).catch(error=>{
+             console.log(error)
+    })
+  }
   render() {
       const{user,loading,userid,flag}=this.state;
 console.log(flag)
@@ -109,24 +146,26 @@ console.log(flag)
         <img className="card-img-top" src={photoUrl} onError={i=>i.target.src=`${Batman}`} alt="Card image cap" style={{width:'100%',height:'200px',objectFit:'cover',}} />
         <div className="col md-12 mt-5 mb-5" >
         <h5 className="mt-5 mb-5">About Me:</h5>
-        <p className="lead">{user.about|| "Write something about yourself"}</p>
+        <p className="lead">{user.about|| ""}</p>
         </div >
         </div>
         <div className="col-6" style={{marginTop:"5%",}}>
         <div>
-        <h3 className="mt-5 mb-5">Hello {user.Username}!! </h3>
+        <h3 className="mt-5 mb-5">{isAuthenticateUser() && isAuthenticateUser()._id == this.state.userid ? (`Hello ${user.Username}!!`):(`${user.Username}`)}</h3>
         <h4 className="mt-5 mb-5">Email: {user.email}</h4>
         <p className="mt-5 mb-5"> {`Joined on ${new Date(user.created).toDateString()}`}</p>        
         </div>
         
         <div style={{margin:'2%'}}>
-        {isAuthenticateUser() && isAuthenticateUser()._id == this.state.userid && (
+        {isAuthenticateUser() && isAuthenticateUser()._id == this.state.userid ?(
           <>
        <Link className="btn btn-success" style={{margin:'2%'}} to ={`/user/update/${this.state.userid}`}>
        Edit Profile
        </Link>
        <button type="button" class="btn btn-danger" style={{margin:'2%'}} onClick={()=>this.handleDelete(this.state.userid)}>Delete Profile</button>
        </>     
+      ):(
+       <FollowButton follow={this.state.following} onButtonClick={this.OnclickFollow}/>
       )}
       </div>
         </div>

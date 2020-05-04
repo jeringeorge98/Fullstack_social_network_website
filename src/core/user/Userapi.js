@@ -76,3 +76,16 @@ export const updateLocalinfo=({Username,email,_id},next)=>{
         next();
   }
 }
+
+export const followUser =(token,userid,followid)=>{
+  return fetch(`http://localhost:5000/user/follow`,{
+    method:'PUT',
+    headers: {
+      Accept: "application/json",
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify({userid,followid})
+  }).then(resp=>resp.json())
+  .catch(err=>console.log(err)) 
+}
