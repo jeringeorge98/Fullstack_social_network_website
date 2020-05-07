@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { list } from "./Userapi";
 import {Link} from 'react-router-dom';
+import "antd/dist/antd.css";
+import {Modal} from "antd";
 import Batman from "../../assets/batman.png"
 export default class UserList extends Component {
   constructor(props) {

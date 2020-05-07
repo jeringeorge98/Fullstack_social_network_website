@@ -77,7 +77,8 @@ export const updateLocalinfo=({Username,email,_id},next)=>{
   }
 }
 
-export const followUser =(token,userid,followid)=>{
+export const followUser =(token,userId,followId)=>{
+  console.table(token,userId._id,followId)
   return fetch(`http://localhost:5000/user/follow`,{
     method:'PUT',
     headers: {
@@ -85,7 +86,21 @@ export const followUser =(token,userid,followid)=>{
       "Content-Type":"application/json",
       Authorization:`Bearer ${token}`
     },
-    body:JSON.stringify({userid,followid})
+    body:JSON.stringify({userId:userId._id,followId})
+  }).then(resp=>resp.json())
+  .catch(err=>console.log(err)) 
+}
+
+export const unfollowUser =(token,userId,unfollowId)=>{
+  console.table(token,userId._id,unfollowId)
+  return fetch(`http://localhost:5000/user/unfollow`,{
+    method:'PUT',
+    headers: {
+      Accept: "application/json",
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+    body:JSON.stringify({userId:userId._id,unfollowId})
   }).then(resp=>resp.json())
   .catch(err=>console.log(err)) 
 }

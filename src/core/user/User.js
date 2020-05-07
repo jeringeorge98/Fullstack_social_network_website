@@ -3,6 +3,7 @@ import {Link, Redirect} from 'react-router-dom';
 import { isAuthenticateUser,isAuthenticate, } from "../../auth";
 import {deleteUser,signOut} from './Userapi'
 import FollowButton from '../components/followButton'
+import Profilemodal from '../components/Profiletabs'
 import Batman from "../../assets/batman.png"
 export default class User extends Component {
   constructor(props) {
@@ -10,16 +11,17 @@ export default class User extends Component {
 
     this.state = {
       userid: this.props.match.params.userId,
-      user: {follower:[],following:[]},
+      user: {followers:[],following:[]},
       loading:false,
       flag:false,
+      modalVisible:false,
       following:false
     };
   }
 
   checkFollowing=(user)=>{
     const jwt=isAuthenticateUser();
-    const match  =user.following.find(follower=>{
+    const match  =user.followers.find(follower=>{
       return follower._id===jwt._id
     }
       )
@@ -103,25 +105,35 @@ export default class User extends Component {
 
 
   OnclickFollow=(apicall)=>{
-   let userid=isAuthenticateUser();
+   let userId=isAuthenticateUser();
    let token =isAuthenticate();
-    let followid=this.state.user._id   
-    apicall(token,userid,followid).then(data=>{
+    let followId=this.state.userid   
+    apicall(token,userId,followId).then(data=>{
     if(data.error){
       this.setState({
         error:data.error
       })
     }
-    else{
-      console.log(data.user)
+    
+      console.log(data)
     this.setState({
-      following:!this.state.following
-
+      following:!this.state.following,
+         
     })
-  }
+  
 
     }).catch(error=>{
              console.log(error)
+    })
+    window.location.reload();
+  }
+  modelClose=()=>{
+    this.setState({modalVisible:false})
+  }
+  OpenModal=()=>{
+    console.log('hello')
+    this.setState({
+      modalVisible:true
     })
   }
   render() {
@@ -132,6 +144,7 @@ console.log(flag)
        }      
        const photoUrl=userid?`http://localhost:5000/user/photo/${userid}`: <Batman/>
        console.log(photoUrl)
+    
       return (
         <>
        {loading?(<div className="jumbotron">
@@ -148,12 +161,22 @@ console.log(flag)
         <h5 className="mt-5 mb-5">About Me:</h5>
         <p className="lead">{user.about|| ""}</p>
         </div >
+        <hr/>
+        {/*<ProfileTab followers={user.followers} following ={user.following}/>*/}
         </div>
         <div className="col-6" style={{marginTop:"5%",}}>
         <div>
         <h3 className="mt-5 mb-5">{isAuthenticateUser() && isAuthenticateUser()._id == this.state.userid ? (`Hello ${user.Username}!!`):(`${user.Username}`)}</h3>
         <h4 className="mt-5 mb-5">Email: {user.email}</h4>
-        <p className="mt-5 mb-5"> {`Joined on ${new Date(user.created).toDateString()}`}</p>        
+        <p className="mt-5 mb-5"> {`Joined on ${new Date(user.created).toDateString()}`}</p>
+       <div className="row">
+        <div className="col-6">
+        <span className="font-weight-light" style={{fontSize:'25px',color:'blue',cursor:'pointer'}} onClick={()=>this.OpenModal()}>{`${user.followers.length} followers`} </span>
+        </div>
+        <div className="col-6">
+        <p className="font-weight-light" style={{fontSize:'25px',color:'green',cursor:'pointer'}}>{`${user.following.length || 0} following`} </p>
+        </div>
+        </div>
         </div>
         
         <div style={{margin:'2%'}}>
@@ -167,11 +190,13 @@ console.log(flag)
       ):(
        <FollowButton follow={this.state.following} onButtonClick={this.OnclickFollow}/>
       )}
+      
       </div>
         </div>
         </div>
         </div>)
       }}
+      <Profilemodal modalVisible={this.state.modalVisible} modalClose={()=>this.modelClose()} followers={this.state.user.followers}/>
         </>
     );
   }
