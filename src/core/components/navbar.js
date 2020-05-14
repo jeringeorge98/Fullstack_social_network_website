@@ -46,6 +46,11 @@ const Navbar = ({history}) => {
             Users
           </Link>
         </li>
+        <li className="nav-item">
+          <Link className={isActive(history,"/findPeople")} to="/findPeople">
+           Find  Users
+          </Link>
+        </li>
         {isAuthenticate()?(
           <>
         <li className="nav-item">

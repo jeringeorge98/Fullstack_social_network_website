@@ -104,3 +104,17 @@ export const unfollowUser =(token,userId,unfollowId)=>{
   }).then(resp=>resp.json())
   .catch(err=>console.log(err)) 
 }
+
+// suggest users
+export const suggestUsers =(token,userId)=>{
+  return fetch(`http://localhost:5000/user/suggestUser/${userId}`,{
+    method:'GET',
+    headers: {
+      Accept: "application/json",
+      "Content-Type":"application/json",
+      Authorization:`Bearer ${token}`
+    },
+  
+  }).then(resp=>resp.json())
+  .catch(err=>console.log(err)) 
+}
