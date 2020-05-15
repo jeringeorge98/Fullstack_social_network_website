@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import {Link} from 'react-router-dom';
-import {isAuthenticateUser} from '../auth/index'
-export default class Signup extends Component {
+import {isAuthenticateUser, isAuthenticate} from '../auth/index'
+import {createPost} from "./postApi"
+export default class CreatePost extends Component {
   constructor(props) {
     super(props);
 
@@ -10,7 +11,9 @@ export default class Signup extends Component {
       body: "",
       error:'',
       user:{},
-      open:false
+      filesize:0,
+      open:false,
+      loading:false
     };
   }
 
@@ -25,63 +28,69 @@ this.setState({
 }
 
   handleSubmmit = (e) => {
+    this.setState({
+      loading:true
+    })
     e.preventDefault();
-    const { Username, email, password } = this.state;
-    const user = { Username, email, password };
-    console.log(user);
-
-    this.handleSignUp(user)
-    .then(data=>{
-        console.log(data)
-        if(data.error){
-            this.setState({
-                error:data.error
-            })
-        }
-            else{
-                this.setState({
-                    Username:'',
-                    email:'',
-                    password:'',
-                    error:'',
-                    open:true
-                })
-            }
-        }
-    )
+    // const { title, body, password } = this.state;
+    // const user = { Username, email, password };
+    
+      let token =isAuthenticate();
+      let userId=isAuthenticateUser()._id;
+      // console.log(this.postData,token,userId);
+      if(this.isValid()){
+        createPost(token,userId,this.postData).then(resp=>{
+          console.log(resp)
+          this.setState({
+            loading:false,
+            open:true,
+            title:'',
+            body:'',
+            photo:''
+          })
+        })
+        .catch(err=>{
+        console.log(err)
+        })
+      }
+      
        
   };
 
-  handleSignUp=(user)=>{
-    return fetch("http://localhost:5000/signup", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body:JSON.stringify(user)
-    }).then(resp=>{
-        return resp.json()
-    })
-  }
   handleChange = (name) => (event) => {
+    
     const value = name === "photo" ? event.target.files[0] : event.target.value;
-    this.userData.set(name, value);
+    this.postData.set(name, value);
+    
     this.setState({ [name]: value });
   };
 
   isValid=()=>{
-
-
-    
+const {title,body,filesize}=this.state;
+if(body===''|| title===''){
+  this.setState({
+    error:'All fields required'
+  })
+  return false
+}
+else if(filesize>10000){
+  this.setState({
+    error:'Uploaded file exceeds the file size'
+  })
+  return false
+}
+    return true
   }
   render() {
-    const{error,open}=this.state;
+    const{error,loading,open}=this.state;
     return (
       <div className="container-fluid">
         <h2 className="mt-5 mb-5"> Create a Post</h2>
+        <div className="jumbotron" style={{ display: loading ? "" : "none" }}>
+        Loading......
+      </div>
         <div className="alert alert-success" role="alert" style={{display:open? "":"none"}}>
-                  Succesfully signed up!! Please<Link to="/signin">Sign in</Link>
+                Sucessfully Posted !!!
              </div>
            <div className="alert alert-warning" role="alert" style={{display:error? "":"none"}}>
                   {error}
@@ -97,13 +106,25 @@ this.setState({
               type="text"
               value={this.state.title}
               class="form-control"
-              placeholder="Your Email"
+              placeholder="Title"
               aria-label="Username"
               aria-describedby="basic-addon1"
               onChange={this.handleChange("title")}
             ></input>
           </div>
-
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <span className="input-group-text" id="basic-addon1">
+                Profile Photo
+              </span>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              className="form-control"
+              onChange={this.handleChange("photo")}
+            ></input>
+          </div>
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">
@@ -122,7 +143,7 @@ this.setState({
             className="btn btn-raised btn-primary"
             onClick={this.handleSubmmit}
           >
-            Signup
+            Post!
           </button>
         </form>
       </div>
