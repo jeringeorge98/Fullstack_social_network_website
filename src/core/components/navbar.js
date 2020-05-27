@@ -59,6 +59,11 @@ const Navbar = ({history}) => {
           </Link>
         </li>
         <li className="nav-item">
+        <Link className={isActive(history,"/createPost")} style={{cursor:"pointer"}} to ="/createPost">
+            Create Post
+          </Link>
+        </li>
+        <li className="nav-item">
         <a className="nav-link" style={{cursor:"pointer"}} onClick={()=>signout(()=>history.push('/'))}>
             Sign Out
           </a>
