@@ -59,7 +59,7 @@ let arr=[];
   }
   render(){
     const {posts,readMore}=this.state
-    if(!isAuthenticateUser() || posts.length===0){
+    if(!isAuthenticateUser()){
       return(
         <div className="jumbotron">
         <h1>Welcome!</h1>
@@ -71,9 +71,13 @@ let arr=[];
     return (
         <div className="jumbotron jumbotron-fluid"style={{backgroundColor:'#d6d5d2'}}>
           <div className="container">
-          <h1>Welcome!</h1>
+         {!posts.length? (<h1 style={{color:'white'}} className="lead">Loading....</h1>):(
+          <h1 style={{color:'black'}}>Welcome !</h1>
+         )}
           <div class="dropdown-divider"></div>
+          <h3 style={{color:'black'}} className="lead">Recent Posts</h3>
           {posts.map((item,index)=>{
+
             const posterId =item.postedBy? item.postedBy._id:"";
             const postedName =item.postedBy? item.postedBy.Username:"Unknown";
             return(
@@ -90,11 +94,11 @@ let arr=[];
              <p className="font-italic mark">Posted By {""}
              <Link to ={`/user/${posterId}`}>{postedName} {""}</Link>
               on {`${new Date(item.created).toDateString()}`}
-             </p>
+             </p> 
              <div className="card-body" style={{display:item.photo?"":"none"}}>
-             <img className="card-img-center" src={`http://localhost:5000/post/photo/${item._id}`}  alt="Card image cap" style={{width:'400px',height:'250px',objectFit:'cover'}} />
+             <img className="card-img-center" src={`http://localhost:5000/post/photo/${item._id}`}  alt="Card image cap" style={{width:'auto',height:'250px',objectFit:'cover'}} />
              </div>
-             <Link class="btn btn-primary">View Post</Link>
+             <Link class="btn btn-primary" to={`/post/${item._id}`}>View Post</Link>
              </div>
           
         
