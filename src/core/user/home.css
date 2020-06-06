@@ -1,0 +1,7 @@
+.background-container{
+    top: 60px;
+    bottom:0; 
+    width: 100%; 
+    position: fixed; 
+    overflow: scroll;
+}

@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:500');
+*{
+box-sizing:border-box;
+padding:0px;
+margin:0px;
+background-color: 'white';
+}
+
+.toolbar{
+    width:100%;
+    background:#415e9b;
+    position: fixed;
+    height:56px;
+    top:0;
+    left: 0;   
+}
+
+.toolbar_navigation{
+display: flex;
+align-content: center;
+height: '100%';
+padding: 1rem 1rem;
+}
+.toolbar_navigation-items ul{
+   list-style: none;
+   margin: 0;
+   padding: 0;
+   display: flex;
+     
+    }
+    .toolbar_navigation-items li{
+        padding:0 3rem;
+    }
+.toolbar_navigation-items a{
+color: white;
+text-decoration: none;
+}

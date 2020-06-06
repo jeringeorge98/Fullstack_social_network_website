@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import './user/home.css'
 import update from 'react-addons-update';
 import {getPosts} from '../posts/postApi'
 import {Link} from "react-router-dom";
@@ -69,7 +70,7 @@ let arr=[];
     }
     
     return (
-        <div className="jumbotron jumbotron-fluid"style={{backgroundColor:'#d6d5d2'}}>
+        <div className="background-container">
           <div className="container">
          {!posts.length? (<h1 style={{color:'white'}} className="lead">Loading....</h1>):(
           <h1 style={{color:'black'}}>Welcome !</h1>
