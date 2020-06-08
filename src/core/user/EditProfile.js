@@ -27,7 +27,7 @@ export default class EditProfile extends Component {
     console.log(this.state.userid);
     //let user = await JSON.parse(localStorage.getItem("user"));
     // this.setState({loading:true})
-    fetch(`http://localhost:5000/user/${this.state.userid}`, {
+    fetch(`https://mern-stack-web-application.herokuapp.com/user/${this.state.userid}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -89,7 +89,7 @@ export default class EditProfile extends Component {
       return <Redirect to={`/user/${userid}`} />;
     }
     const photoUrl = userid ? (
-      `http://localhost:5000/user/photo/${userid}`
+      `https://mern-stack-web-application.herokuapp.com/user/photo/${userid}`
     ) : (
       <Batman />
     );

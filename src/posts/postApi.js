@@ -1,5 +1,7 @@
+const url= "https://mern-stack-web-application.herokuapp.com"
+
 export const createPost=(token,userid,post)=>{
-  return fetch(`http://localhost:5000/post/new/${userid}`,{
+  return fetch(url+`/post/new/${userid}`,{
     method:'POST',
     body:post,
     headers: {
@@ -11,7 +13,7 @@ export const createPost=(token,userid,post)=>{
   .catch(err=>{console.log(err)})
 }
 export const getPosts=(token)=>{
-  return fetch(`http://localhost:5000/posts`,{
+  return fetch(url+"/posts",{
     method:'GET',
     headers: {
       Accept: "application/json",
@@ -24,7 +26,7 @@ export const getPosts=(token)=>{
 }
 
 export const getSinglePost=(postId)=>{
-  return fetch(`http://localhost:5000/post/${postId}`,{
+  return fetch( url+`/post/${postId}`,{
     method:'GET',
 
   })
@@ -32,7 +34,7 @@ export const getSinglePost=(postId)=>{
   .catch(err=>{console.log(err)})
 }
 export const PostbyUser=(userId,token)=>{
-  return fetch(`http://localhost:5000/post/by/${userId}`,{
+  return fetch(url+`/post/by/${userId}`,{
     method:'GET',
     headers: {
       Accept: "application/json",
@@ -43,7 +45,7 @@ export const PostbyUser=(userId,token)=>{
   .catch(err=>console.log(err))
 }
 export const removePost=(userId,token)=>{
-  return fetch(`http://localhost:5000/post/${userId}`,{
+  return fetch(url+`/post/${userId}`,{
     method:'DELETE',
     headers: {
       Accept: "application/json",
@@ -57,7 +59,7 @@ export const removePost=(userId,token)=>{
 // edit post
 export const updatePost=(id,token,post)=>{
   console.log('postdata',post)
-  return fetch(`http://localhost:5000/post/update/${id}`,{
+  return fetch(url+`/post/update/${id}`,{
     method:'PUT',
     headers: {
       Accept: "application/json",

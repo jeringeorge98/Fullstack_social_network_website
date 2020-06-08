@@ -60,7 +60,7 @@ return(
       on {`${new Date(post.created).toDateString()}`}
      </p> 
      <div className="card-body" style={{display:post.photo?"":"none"}}>
-     <img className="card-img-center" src={`http://localhost:5000/post/photo/${post._id}`}  alt="Card image cap" style={{width:'100%',height:'350px',objectFit:'cover'}} />
+     <img className="card-img-center" src={`https://mern-stack-web-application.herokuapp.com/post/photo/${post._id}`}  alt="Card image cap" style={{width:'100%',height:'350px',objectFit:'cover'}} />
      </div>
      <Link class="btn btn-primary" to={`/`}>Back to Home</Link>
      {isAuthenticateUser() &&

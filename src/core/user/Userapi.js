@@ -1,6 +1,8 @@
+const url= "https://mern-stack-web-application.herokuapp.com"
+
 export const list=()=>{
 
-    return fetch(`http://localhost:5000/users`, {
+    return fetch(url+"/users", {
        method: "GET",
        headers: {
          Accept: "application/json",
@@ -20,7 +22,7 @@ export const list=()=>{
    }
    // delete user api
    export const deleteUser=(id,token)=>{
-      return fetch(`http://localhost:5000/user/delete/${id}`,{
+      return fetch(url+`/user/delete/${id}`,{
         method:'DELETE',
         headers: {
           Accept: "application/json",
@@ -41,7 +43,7 @@ export const list=()=>{
      }
    
    
-    return fetch("http://localhost:5000/signOut",{
+    return fetch(url+"/signout",{
       method:'GET',
   }).then(resp=>{
       console.log(resp.json)
@@ -53,7 +55,7 @@ export const list=()=>{
 
 export const updateUser=(id,token,user)=>{
   console.log('Userdata',user)
-  return fetch(`http://localhost:5000/user/update/${id}`,{
+  return fetch(url+`/user/update/${id}`,{
     method:'PUT',
     headers: {
       Accept: "application/json",
@@ -79,7 +81,7 @@ export const updateLocalinfo=({Username,email,_id},next)=>{
 
 export const followUser =(token,userId,followId)=>{
   console.table(token,userId._id,followId)
-  return fetch(`http://localhost:5000/user/follow`,{
+  return fetch(url+"/user/follow",{
     method:'PUT',
     headers: {
       Accept: "application/json",
@@ -93,7 +95,7 @@ export const followUser =(token,userId,followId)=>{
 
 export const unfollowUser =(token,userId,unfollowId)=>{
   console.table(token,userId._id,unfollowId)
-  return fetch(`http://localhost:5000/user/unfollow`,{
+  return fetch(url+"/user/unfollow",{
     method:'PUT',
     headers: {
       Accept: "application/json",
@@ -107,7 +109,7 @@ export const unfollowUser =(token,userId,unfollowId)=>{
 
 // suggest users
 export const suggestUsers =(token,userId)=>{
-  return fetch(`http://localhost:5000/user/suggestUser/${userId}`,{
+  return fetch(url+`/user/suggestUser/${userId}`,{
     method:'GET',
     headers: {
       Accept: "application/json",

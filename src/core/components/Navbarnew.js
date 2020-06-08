@@ -21,7 +21,7 @@ const isAuthenticate=()=>{
         localStorage.removeItem("user");
     }
         next();
-        return fetch("http://localhost:5000/signOut",{
+        return fetch("https://mern-stack-web-application.herokuapp.com/signOut",{
             method:'GET',
         }).then(resp=>{
             console.log(resp.json)

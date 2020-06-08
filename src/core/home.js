@@ -97,7 +97,7 @@ let arr=[];
               on {`${new Date(item.created).toDateString()}`}
              </p> 
              <div className="card-body" style={{display:item.photo?"":"none"}}>
-             <img className="card-img-center" src={`http://localhost:5000/post/photo/${item._id}`}  alt="Card image cap" style={{width:'auto',height:'250px',objectFit:'cover'}} />
+             <img className="card-img-center" src={`https://mern-stack-web-application.herokuapp.com/post/photo/${item._id}`}  alt="Card image cap" style={{width:'auto',height:'250px',objectFit:'cover'}} />
              </div>
              <Link class="btn btn-primary" to={`/post/${item._id}`}>View Post</Link>
              </div>

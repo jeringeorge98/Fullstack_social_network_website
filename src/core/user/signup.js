@@ -42,7 +42,7 @@ export default class Signup extends Component {
   };
 
   handleSignUp=(user)=>{
-    return fetch("http://localhost:5000/signup", {
+    return fetch("https://mern-stack-web-application.herokuapp.com/signup", {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -24,7 +24,7 @@ export const isAuthenticate=()=>{
   // get singleuser
   export const getUser=(id,token)=>{
 
-   return fetch(`http://localhost:5000/user/${id}`, {
+   return fetch(`https://mern-stack-web-application.herokuapp.com/user/${id}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
